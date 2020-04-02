@@ -93,4 +93,19 @@ describe('meme routes', () => {
         });
       });
   });
+
+  it('deletes a meme', async() => {
+    const meme = await Meme.create({
+      top: 'To meme not to meme',
+      image: 'https://cdn.britannica.com/37/75437-004-EFD403D1/detail-William-Shakespeare-portrait-oil-painting-John-1610.jpg',
+      bottom: 'That is a question'
+    });
+
+    return request(app)
+      .delete(`/api/v1/memes/${meme.id}`)
+      .then(res => {
+        const memeJSON = JSON.parse(JSON.stringify(meme));
+        expect(res.body).toEqual(memeJSON);
+      });
+  });
 });
