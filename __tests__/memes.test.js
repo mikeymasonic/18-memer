@@ -67,4 +67,30 @@ describe('meme routes', () => {
         expect(res.body).toEqual(memeJSON);
       });
   });
+
+  it('updates a meme by id', async() => {
+    const meme = await Meme.create({
+      top: 'To meme not to meme',
+      image: 'https://cdn.britannica.com/37/75437-004-EFD403D1/detail-William-Shakespeare-portrait-oil-painting-John-1610.jpg',
+      bottom: 'That is a question'
+    });
+
+    const update = {
+      top: 'Here\'s',
+      bottom: 'an update'
+    };
+
+    return request(app)
+      .patch(`/api/v1/memes/${meme._id}`)
+      .send(update)
+      .then(res => {
+        expect(res.body).toEqual({
+          _id: expect.any(String),
+          top: 'Here\'s',
+          image: 'https://cdn.britannica.com/37/75437-004-EFD403D1/detail-William-Shakespeare-portrait-oil-painting-John-1610.jpg',
+          bottom: 'an update',
+          __v: 0
+        });
+      });
+  });
 });
