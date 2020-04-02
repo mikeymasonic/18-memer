@@ -52,4 +52,19 @@ describe('meme routes', () => {
         expect(res.body).toEqual([memeJSON]);
       });
   });
+
+  it('gets meme by id', async() => {
+    const meme = await Meme.create({
+      top: 'To meme not to meme',
+      image: 'https://cdn.britannica.com/37/75437-004-EFD403D1/detail-William-Shakespeare-portrait-oil-painting-John-1610.jpg',
+      bottom: 'That is a question'
+    });
+
+    return request(app)
+      .get(`/api/v1/memes/${meme._id}`)
+      .then(res => {
+        const memeJSON = JSON.parse(JSON.stringify(meme));
+        expect(res.body).toEqual(memeJSON);
+      });
+  });
 });
